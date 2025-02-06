@@ -223,6 +223,12 @@ Mixed_Scenario_Cat2_Combined <- do.call(rbind, Mixed_Scenario_Cat2)
 # save output
 saveRDS(Mixed_Scenario_Cat2_Combined, "output/mixed_scenario_cat2.rds")
 
+# load scenarios if needed
+Matched_Scenario_Cat2_Combined <- readRDS("output/matched_scenario_cat2.rds")
+Mixed_Scenario_Cat2_Combined <- readRDS("output/mixed_scenario_cat2.rds")
+Matched_Scenario_Cat1Cat2_Combined <- readRDS("output/matched_scenario_cat1cat2.rds")
+Mixed_Scenario_Cat1Cat2_Combined <- readRDS("output/mixed_scenario_cat1cat2.rds")
+
 # get the full matched plus mixed scanarios
 Scenario_Cat1Cat2 <- Matched_Scenario_Cat1Cat2_Combined %>% as_tibble()
 Scenario_Cat1Cat2$AREA <- Matched_Scenario_Cat1Cat2_Combined$AREA + Mixed_Scenario_Cat1Cat2_Combined$AREA
@@ -236,12 +242,12 @@ SummaryCat2 <- Scenario_Cat2 %>% group_by(KMR) %>% summarise(Median = median(ARE
 # now make some plots
 
 # Cat 1 and Cat 2 scenario
-Plot <- ggplot(Scenario_Cat1Cat2, aes(x = KMR, y = AREA, fill = KMR)) + geom_violin(color = NA) + theme_minimal() + scale_y_continuous(limits = c(-500, 5000), breaks = seq(-500, 5000, by = 500)) + theme(axis.title.x = element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + geom_hline(yintercept = 0) + labs(y = "Reduction in clearing (ha / year)") + theme(legend.title = element_blank(), legend.position="bottom", axis.title.y = element_text(size = 18)) 
+Plot <- ggplot(Scenario_Cat1Cat2, aes(x = KMR, y = AREA, fill = KMR)) + geom_violin(color = NA) + theme_minimal() + scale_y_continuous(limits = c(-500, 5000), breaks = seq(-500, 5000, by = 500)) + geom_hline(yintercept = 0) + labs(y = "Reduction in clearing (ha / year)", x = "Koala Modelling Region") + theme(legend.title = element_blank(), legend.position = "none", axis.title.y = element_text(size = 16)) + theme(axis.title.x = element_text(size = 16), axis.text.x = element_text(size = 14, angle = 90, hjust = 1, vjust = 0.5), axis.text.y = element_text(size = 14))
 
 ggsave(Plot, file = "output/figures/scenario_cat1cat2.jpg", width = 30, height = 20, units = "cm", dpi = 300)
 
 # Cat 2 scenario
-Plot <- ggplot(Scenario_Cat2, aes(x = KMR, y = AREA, fill = KMR)) + geom_violin(color = NA) + theme_minimal() + scale_y_continuous(limits = c(-500, 5000), breaks = seq(-500, 5000, by = 500)) + theme(axis.title.x = element_blank(), axis.text.x = element_blank(), axis.ticks.x=element_blank()) + geom_hline(yintercept = 0) + labs(y = "Reduction in clearing (ha / year)") + theme(legend.title = element_blank(), legend.position="bottom", axis.title.y = element_text(size = 18))
+Plot <- ggplot(Scenario_Cat2, aes(x = KMR, y = AREA, fill = KMR)) + geom_violin(color = NA) + theme_minimal() + scale_y_continuous(limits = c(-500, 5000), breaks = seq(-500, 5000, by = 500)) + geom_hline(yintercept = 0) + labs(y = "Reduction in clearing (ha / year)", x = "Koala Modelling Region") + theme(legend.title = element_blank(), legend.position = "none", axis.title.y = element_text(size = 16)) + theme(axis.title.x = element_text(size = 16), axis.text.x = element_text(size = 14, angle = 90, hjust = 1, vjust = 0.5), axis.text.y = element_text(size = 14))
 
 ggsave(Plot, file = "output/figures/scenario_cat2.jpg", width = 30, height = 20, units = "cm", dpi = 300)
 
